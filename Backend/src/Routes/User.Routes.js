@@ -3,19 +3,20 @@ const {UserModel} = require("../Models/User.model");
 const UserRouter = Router();
 
 UserRouter.post("/", async (req, res) => {
-  const {username, email} = req.body;
-  try {
-    const Adduser = new UserModel({
-      username,
-      email,
-      mobnumber,
-      address,
-    });
-    await Adduser;
-    res.status(201).send({msg: "User Created"});
-  } catch (err) {
-    res.status(200).send({msg: "User Not Created"});
-  }
+ const {username,email}=req.body
+ const isuser=await UserModel.findOne({email})
+ if(!isuser){
+    try {
+        const Adduser = new UserModel(req.body);
+        await Adduser.save();
+        res.status(201).send({msg: "User Created"});
+      } catch (err) {
+        res.status(200).send({msg: "error"});
+      }
+ }else{
+    res.status(200).send({msg: "User Exist"});
+ }
+
 });
 
 UserRouter.get("/", async (req, res) => {
