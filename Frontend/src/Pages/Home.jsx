@@ -1,11 +1,12 @@
 import React, { useState, useRef } from "react";
 import { PostUser } from "../assets/Services";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const formRef = useRef(null);
   const [formdata, setFormdata] = useState({});
-
+const navigate=useNavigate()
   const handeldchange = (e) => {
     const { name, value } = e.target;
     setFormdata({ ...formdata, [name]: value });
@@ -17,14 +18,13 @@ const Home = () => {
     res.then((response) => {
       if (response.data.msg === "User Created") {
         Swal.fire({
-          position: "top-end",
+          position: "top-center",
           icon: "success",
           title: "User Added Successfully",
           showConfirmButton: false,
           timer: 1500,
         });
-        formRef.current.reset(); // Clear form fields
-        setFormdata({});
+        navigate("/list")
       } else if (response.data.msg === "User Exist") {
         Swal.fire({
           icon: "error",
