@@ -17,5 +17,23 @@ try{
 return err
 }
 }
+export const DeleteUser=async(id)=>{
+try{
+    const DeleteUserData=await axios.delete(`${baseUrl}/${id}`)
+    return DeleteUserData
+}catch(err){
+return err
+}
+}
+export const GetSingleuser=async(id)=>{
+try{
+    const userData=await axios.get(`${baseUrl}/${id}`)
+    return userData
+}catch(err){
+return err
+}
+}
+
+
 
 

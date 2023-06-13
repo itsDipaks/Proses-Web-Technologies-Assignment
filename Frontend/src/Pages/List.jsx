@@ -1,19 +1,41 @@
 import React, {useEffect, useState} from "react";
-import {GetallUser} from "../assets/Services";
+import {DeleteUser, GetallUser} from "../assets/Services";
+import Swal from "sweetalert2";
+import Edit from "../Components/Edit";
+import { Link } from "react-router-dom";
 
 const List = () => {
   const [usersData, setUsersData] = useState([]);
-
   useEffect(() => {
     GetUsers();
   }, []);
-
   const GetUsers = () => {
     GetallUser().then((res) => {
       setUsersData(res.data.AllUsers);
       console.log(res.data.AllUsers);
     });
   };
+  const RemoveUser = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        DeleteUser(id).then((res) => {
+          if (res.data.msg == "User deleted successfully") {
+            Swal.fire("Deleted!", "User Data has been Deleted.", "success");
+            GetUsers();
+          }
+        });
+      }
+    });
+  };
+  const UpdateUser = (id) => {};
   return (
     <>
       <div className="relative overflow-x-auto w-full p-8">
@@ -50,12 +72,18 @@ const List = () => {
                   <td className="px-6 py-4">+91 {el.mobnumber}</td>
                   <td className="px-6 py-4"> {el.email}</td>
                   <td className="px-2 py-2">
-                    <button className="border px-6 py-2   rounded bg-white text-green-600">
-                      Edit
+                    <button
+                      onClick={() => UpdateUser(el._id)}
+                      className="border px-6 py-2   rounded bg-white text-green-600"
+                    >
+        <Link to={`/list/${el._id}`}>Edite User</Link>
                     </button>
                   </td>
                   <td className="px-2 py-2 ">
-                    <button className="border p-2 rounded bg-white text-red-400">
+                    <button
+                      onClick={() => RemoveUser(el._id)}
+                      className="border p-2 rounded bg-white text-red-400"
+                    >
                       Remove
                     </button>
                   </td>

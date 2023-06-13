@@ -27,16 +27,24 @@ UserRouter.get("/", async (req, res) => {
     res.status(200).send({msg: "Data Not Found", err: err});
   }
 });
+UserRouter.get("/:id", async (req, res) => {
+  try {
+    const  User = await UserModel.findOne({_id:req.params.id});
+    res.status(201).send({msg: "User Data", User: User});
+  } catch (err) {
+    res.status(200).send({msg: "Data Not Found", err: err});
+  }
+});
 
 UserRouter.patch("/:id", (req, res) => {});
 
 UserRouter.delete('/:id', async (req, res) => {
     try {
-      const User = await UserModel(req.params.id);
+      const User = await UserModel.findOneAndDelete({_id:req.params.id});
       if (!User) {
         return res.status(404).json({ error: 'User not found' });
       }
-      res.send({ message: 'User deleted successfully' });
+      res.send({ msg: 'User deleted successfully' });
     } catch (error) {
       res.status(500).json({ error: 'Error deleting User' });
     }
