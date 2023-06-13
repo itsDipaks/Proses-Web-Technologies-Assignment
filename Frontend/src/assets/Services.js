@@ -9,6 +9,14 @@ try{
 return err
 }
 }
+export const UpdateMyUser=async(formdata,id)=>{
+try{
+    const UpdateMyUser=await axios.patch(`${baseUrl}/${id}`,formdata)
+    return UpdateMyUser
+}catch(err){
+return err
+}
+}
 export const GetallUser=async()=>{
 try{
     const GetUsers=await axios.get(`${baseUrl}`)

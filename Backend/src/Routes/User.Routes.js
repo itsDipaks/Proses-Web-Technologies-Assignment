@@ -36,7 +36,18 @@ UserRouter.get("/:id", async (req, res) => {
   }
 });
 
-UserRouter.patch("/:id", (req, res) => {});
+UserRouter.patch("/:id", async (req, res) => {
+    try {
+      const updatedUser = await UserModel.findOneAndUpdate(
+        { _id: req.params.id },
+        req.body,
+        { new: true }
+      );
+      res.status(200).send({ msg: "User Updated", user: updatedUser });
+    } catch (err) {
+      res.status(500).send({ msg: "Error updating user", error: err });
+    }
+  });
 
 UserRouter.delete('/:id', async (req, res) => {
     try {
