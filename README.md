@@ -3,7 +3,7 @@
 ## To Use it follow the instructions
 
 ```
-$ git clone https://github.com/itsDipaks/EmployeeManagement.git
+$ git clone https://github.com/itsDipaks/Proses-Web-Technologies-Assignment.git
 ```
 
 ### Installation
