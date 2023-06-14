@@ -24,11 +24,20 @@ $ npm install
 $ npm run dev 
 ```
 ## Features
+> - Input Validation for Email and Phone Number
 > - Add user Data 
 > - Edit userdata
 > - Delete User Data 
 > - Responsive Ui
-> - User Details Table 
+> - User Details Table
+
+# Tech Stack Used 
+ - React 
+ - Javascript
+ - Tailwind Css 
+ - Mongodb
+ - Expres
+ - NodeJs
 
 You can access the deployed application, browse the code on GitHub using the links below:
 

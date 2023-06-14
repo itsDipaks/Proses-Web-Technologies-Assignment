@@ -7,14 +7,35 @@ const Home = () => {
   const formRef = useRef(null);
   const [formdata, setFormdata] = useState({});
   const [loading, setloading] = useState(false);
+  let [emailerr, setemailerr] = useState("");
+  let [moblerr, setmoberr] = useState("");
   const navigate = useNavigate();
 
-// ------- Geeting Inputs From The fiild ---------
+  // ------- Geeting Inputs From The fiild ---------
   const handeldchange = (e) => {
     const {name, value} = e.target;
-    setFormdata({...formdata, [name]: value});
-  };
 
+    // Email validation
+    if (name === "email") {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(value)) {
+        setemailerr("Please enter a valid email address.");
+      } else {
+        setemailerr("");
+      }
+    }
+
+    // Phone number validation
+    if (name === "mobnumber") {
+      const phoneRegex = /^\d{10}$/;
+      if (!phoneRegex.test(value)) {
+        setmoberr("Please enter a 10-digit phone number.");
+      } else {
+        setmoberr("");
+      }
+    }
+    setFormdata({...fsetemailerrormdata, [name]: value});
+  };
 
   // ---  Add new User -------
   const AddNewUser = (e) => {
@@ -39,8 +60,7 @@ const Home = () => {
           text: "User Exists With the Same Email. Try a Different Email.",
         });
         setloading(false);
-      }
-      else if (response.data.msg === "User Exist username") {
+      } else if (response.data.msg === "User Exist username") {
         Swal.fire({
           icon: "error",
           title: "Oops...",
@@ -50,7 +70,6 @@ const Home = () => {
       }
     });
   };
-
 
   return (
     <div>
@@ -80,7 +99,6 @@ const Home = () => {
                       onChange={handeldchange}
                       class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                     />
-                    {/* <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> Username already taken!</p> */}
                   </div>
                 </div>
                 <div class="p-2 w-full">
@@ -96,7 +114,9 @@ const Home = () => {
                       required
                       class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                     />
-                    {/* <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> Username already taken!</p> */}
+                    <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                      {emailerr}
+                    </p>
                   </div>
                 </div>
                 <div class="p-2 w-full">
@@ -115,6 +135,9 @@ const Home = () => {
                       required
                       class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                     />
+                    <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                      {moblerr}
+                    </p>
                     {/* <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> Username already taken!</p> */}
                   </div>
                 </div>
