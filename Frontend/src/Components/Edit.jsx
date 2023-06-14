@@ -8,6 +8,7 @@ const Edit = () => {
   const navigate = useNavigate();
   const [formdata, setFormdata] = useState({});
   const [userdata, setUserdata] = useState({});
+  const [loading, setloading] = useState(false)
 
   const handeldchange = (e) => {
     const {name, value} = e.target;
@@ -15,8 +16,11 @@ const Edit = () => {
   };
 
   let getUser = () => {
+setloading(true)
     GetSingleuser(param.id).then((res) => {
+
       setUserdata(res.data.User);
+      setloading(false)
     });
   };
   
@@ -27,19 +31,22 @@ const Edit = () => {
 
 
   const UpdateUser = (e) => {
+    setloading(true)
     e.preventDefault();
     const res = UpdateMyUser(formdata,param.id);
     res.then((response) => {
       if (response.data.msg === "User Updated") {
         Swal.fire({
-          position: "top-end",
+          position: "top-center",
           icon: "success",
           title: "User Update Successfully",
           showConfirmButton: false,
           timer: 1500,
         });
+        setloading(false)
         navigate("/list");
       } else  {
+        setloading(false)
         Swal.fire({
           icon: "error",
           title: "Oops...",
@@ -143,9 +150,10 @@ const Edit = () => {
                   </button>
                   <button
                     type="submit"
+                    disabled={loading?true:false}
                     class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
                   >
-                    Update
+                    {loading?"Updating ...":"Update"}
                   </button>
                 </div>
               </div>

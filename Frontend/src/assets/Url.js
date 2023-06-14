@@ -1,1 +1,1 @@
-export const  baseUrl="http://localhost:8400/user"
+export const  baseUrl="https://proses-web-techment.onrender.com/user"

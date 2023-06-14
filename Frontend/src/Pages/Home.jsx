@@ -1,19 +1,25 @@
-import React, { useState, useRef } from "react";
-import { PostUser } from "../assets/Services";
+import React, {useState, useRef} from "react";
+import {PostUser} from "../assets/Services";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 const Home = () => {
   const formRef = useRef(null);
   const [formdata, setFormdata] = useState({});
-const navigate=useNavigate()
+  const [loading, setloading] = useState(false);
+  const navigate = useNavigate();
+
+// ------- Geeting Inputs From The fiild ---------
   const handeldchange = (e) => {
-    const { name, value } = e.target;
-    setFormdata({ ...formdata, [name]: value });
+    const {name, value} = e.target;
+    setFormdata({...formdata, [name]: value});
   };
 
+
+  // ---  Add new User -------
   const AddNewUser = (e) => {
     e.preventDefault();
+    setloading(true);
     const res = PostUser(formdata);
     res.then((response) => {
       if (response.data.msg === "User Created") {
@@ -24,16 +30,20 @@ const navigate=useNavigate()
           showConfirmButton: false,
           timer: 1500,
         });
-        navigate("/list")
+        setloading(false);
+        navigate("/list");
       } else if (response.data.msg === "User Exist") {
         Swal.fire({
           icon: "error",
           title: "Oops...",
           text: "User Exists With the Same Email. Try a Different Email.",
         });
+        setloading(false);
       }
     });
   };
+
+
   return (
     <div>
       <section class="text-gray-600 body-font relative">
@@ -120,9 +130,10 @@ const navigate=useNavigate()
                 <div class="p-2 w-full">
                   <button
                     type="submit"
+                    disabled={loading ? true : false}
                     class="flex mx-auto text-white bg-rose-400 border-0 py-2 px-8 focus:outline-none hover:bg-rose-600 rounded text-lg"
                   >
-                    Add New User
+                    {loading ? "Loading" : "Add New User"}
                   </button>
                 </div>
               </div>

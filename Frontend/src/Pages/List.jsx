@@ -1,18 +1,19 @@
 import React, {useEffect, useState} from "react";
 import {DeleteUser, GetallUser} from "../assets/Services";
 import Swal from "sweetalert2";
-import Edit from "../Components/Edit";
 import { Link } from "react-router-dom";
 
 const List = () => {
   const [usersData, setUsersData] = useState([]);
+  const [loading, setloading] = useState(false);
   useEffect(() => {
     GetUsers();
   }, []);
   const GetUsers = () => {
+    setloading(true)
     GetallUser().then((res) => {
       setUsersData(res.data.AllUsers);
-      console.log(res.data.AllUsers);
+      setloading(false)
     });
   };
   const RemoveUser = (id) => {
@@ -35,10 +36,10 @@ const List = () => {
       }
     });
   };
-  const UpdateUser = (id) => {};
   return (
     <>
     <h1 className="text-center text-3xl pt-14 "> Users List </h1>
+    {!usersData?.length>0?<h1 className="text-center p-4 text-red-600 text-semibold">No User Availble Please Add New User. <span className="text-indigo-400"><Link to={"/"}>Click Here ! </Link></span></h1>:""}
       <div className="relative overflow-x-auto w-full p-8">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -63,7 +64,11 @@ const List = () => {
               </th>
             </tr>
           </thead>
-          <tbody>
+          
+         { loading?<span class="relative flex h-8 w-8">
+  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+  <span class="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
+</span>: <tbody>
             {usersData &&
               usersData?.map((el,index) => (
                 <tr className="  border-b  bg-gray-800  text-white">
@@ -86,7 +91,6 @@ const List = () => {
                   <td className="px-6 py-4"> {el.email}</td>
                   <td className="px-2 py-2">
                     <button
-                      onClick={() => UpdateUser(el._id)}
                       className="border px-6 py-2   rounded bg-white text-green-600"
                     >
         <Link to={`/list/${el._id}`}>Edite User</Link>
@@ -102,7 +106,7 @@ const List = () => {
                   </td>
                 </tr>
               ))}
-          </tbody>
+          </tbody>}
         </table>
       </div>
     </>
