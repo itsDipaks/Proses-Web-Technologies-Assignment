@@ -40,6 +40,14 @@ const Home = () => {
         });
         setloading(false);
       }
+      else if (response.data.msg === "User Exist username") {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "User Exists With the Same Username. Please use diffrent Username .",
+        });
+        setloading(false);
+      }
     });
   };
 
