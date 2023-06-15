@@ -60,7 +60,7 @@ const List = () => {
                 Edite
               </th>
               <th scope="col" className="px-6 py-3">
-                Edite
+                Delete
               </th>
             </tr>
           </thead>
