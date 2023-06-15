@@ -34,7 +34,7 @@ const Home = () => {
         setmoberr("");
       }
     }
-    setFormdata({...fsetemailerrormdata, [name]: value});
+    setFormdata({...formdata, [name]: value});
   };
 
   // ---  Add new User -------
